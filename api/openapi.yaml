@@ -1,0 +1,105 @@
+
+openapi: 3.0.0
+info:
+  title: Named Insured API
+  version: v1
+paths:
+  /named_insureds:
+    get:
+      summary: Retrieve a list of named insureds
+      responses:
+        '200':
+          description: A list of named insureds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NamedInsured'
+    post:
+      summary: Create a new named insured
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NamedInsured'
+      responses:
+        '201':
+          description: The created named insured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NamedInsured'
+  /named_insureds/{named_insured_id}:
+    get:
+      summary: Retrieve a named insured by ID
+      parameters:
+        - in: path
+          name: named_insured_id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the named insured
+      responses:
+        '200':
+          description: The named insured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NamedInsured'
+    put:
+      summary: Update a named insured
+      parameters:
+        - in: path
+          name: named_insured_id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the named insured
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NamedInsured'
+      responses:
+        '200':
+          description: The updated named insured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NamedInsured'
+  /named_insureds/order:
+    put:
+      summary: Update the order of named insureds
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                description: The ID of the named insured in the desired order
+      responses:
+        '200':
+          description: Order updated successfully
+components:
+  schemas:
+    NamedInsured:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the named insured
+          readOnly: true
+        name:
+          type: string
+          description: The name of the named insured
+        is_first_named_insured:
+          type: boolean
+          description: Indicates if this is the first named insured
+        order:
+          type: integer
+          description: The order of the named insured
