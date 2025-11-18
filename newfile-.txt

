@@ -1,0 +1,20 @@
+
+-- Database schema to store pilot's total flying hours in the last 12 months
+
+CREATE TABLE Pilots (
+    PilotID INT PRIMARY KEY,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255),
+    EmployeeID VARCHAR(255) UNIQUE
+);
+
+CREATE TABLE FlyingHours (
+    RecordID INT PRIMARY KEY,
+    PilotID INT,
+    Month DATE,
+    TotalHours DECIMAL(10, 2),
+    FOREIGN KEY (PilotID) REFERENCES Pilots(PilotID)
+);
+
+-- Index for faster queries
+CREATE INDEX idx_PilotID ON FlyingHours (PilotID);
